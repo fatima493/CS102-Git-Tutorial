@@ -1,61 +1,56 @@
-// This class is used for encrypting or decrypting strings using character mapping
-public class Cipher   
-{
-    // Strings for keeping the alphabets, one for the original letters and the other for the encrypted ones
-    // encryption involves mapping from original to cipher, for each letter we locate the character in the
-    // original string and replace it with the cipher alphabet letter at the same position
-    public static final String ORIGINAL_ALPHABET = "abcdefghijklmnopqrstuvwxyz";
-    public static final String CIPHER_ALPHABET = "dfxyhrklvwuasgimnojpqetbcz";
-
-    public String encrypt(String inputString) {
-        
-        // output string will be collected in this variable, one char at a time
-        String outputString = "";
-        
-        // for all chars in the input string
-        for (int i = 0; i < inputString.length(); i++)   
-        {
-
+public class Cipher {
+        // Strings for keeping the alphabets, one for the original letters and the other for the encrypted ones
+        public static final String ORIGINAL_ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+        public static final String CIPHER_ALPHABET = "dfxyhrklvwuasgimnojpqetbcz";
+    
+        // Method to encrypt a string
+        public String encrypt(String inputString) {
+            String outputString = "";
+    
+            // Fill in the for loop
+            for (int i = 0; i < inputString.length(); i++) {
+                char currentChar = inputString.charAt(i);
+                // Replace the character
+                outputString += replaceChar(currentChar, true);
+            }
+    
+            return outputString;
         }
-
-        return outputString;
-    }
-
-    public String decrypt(String inputString) {
-        
-        // output string will be collected in this variable, one char at a time
-        String outputString = "";
-        
-        replaceChar('a',true);
-        
-        return outputString;
-    }
-
-    // replaces the given input char based on the given isEncrypt variable
-    // if isEncrypt == true -> original to encrypted
-    // if isEncrypt == false -> encrypted to original
-    // works only when the input char is included in our alphabet variables
-    // should not replace symbols or upper case letters, return input char in those cases
-    private char replaceChar(char inputChar, boolean isEncrypt) {
-        
-        if(isEncrypt) {
-            for (int i = 0; i < ORIGINAL_ALPHABET.length(); i++)   
-            {
-                if(ORIGINAL_ALPHABET.charAt(i) == inputChar) {
-
+    
+        // Decrypt method
+        public String decrypt(String inputString) {
+            String outputString = "";
+    
+            // Fill in the for loop
+            for (int i = 0; i < inputString.length(); i++) {
+                char currentChar = inputString.charAt(i);
+                // Make sure the outputString is updates
+                outputString += replaceChar(currentChar, false);
+            }
+    
+            return outputString;
+        }
+    
+        // Replace the input
+        private char replaceChar(char inputChar, boolean isEncrypt) {
+            // Convert to lowercase to handle case-insensitive matching
+            char lowerChar = Character.toLowerCase(inputChar);
+    
+            //Replace the for loops with if/else statements
+            // Check if the character is in the alphabet
+            if (ORIGINAL_ALPHABET.indexOf(lowerChar) != -1) {
+                if (isEncrypt) {
+                    // Revert alphabet to the cipher alphabet
+                    int index = ORIGINAL_ALPHABET.indexOf(lowerChar);
+                    return CIPHER_ALPHABET.charAt(index);
+                } else {
+                    // Revert cipher to the alphabet
+                    int index = CIPHER_ALPHABET.indexOf(lowerChar);
+                    return ORIGINAL_ALPHABET.charAt(index);
                 }
             }
+    
+            // If the character is not in the alphabet (e.g., space, punctuation), return it as is
+            return inputChar;
         }
-        else {
-            for (int i = 0; i < CIPHER_ALPHABET.length(); i++)   
-            {
-                if(CIPHER_ALPHABET.charAt(i) == inputChar) {
-                    return ORIGINAL_ALPHABET.charAt(i);
-                }
-            }
-        }
-        
-        // if we did not find it in the alphabet, then return the original char
-        return inputChar;
     }
-}   
